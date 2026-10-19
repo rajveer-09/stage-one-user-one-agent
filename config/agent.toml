@@ -1,0 +1,50 @@
+# Agent configuration: budgets, timeouts and thresholds.
+# Nothing here is specific to one replay day; evaluators can rerun on an unseen day unchanged.
+#
+# Author: Rajveer Sharma
+# Date: 18 Oct 2026
+
+[paths]
+goal_interpretations = "config/goal_interpretations.toml"
+
+[budget]
+max_model_calls = 8            # per decision (brief §7)
+max_tool_calls = 20            # per decision (brief §7)
+model_timeout_s = 10           # per call; a 45 s model fault must not stall a decision
+store_timeout_s = 2            # per read; the degraded store has p95 = 8 s
+decision_soft_deadline_ms = 20000
+homepage_fast_path_ms = 1000   # users reach the home page within seconds
+
+[latency]
+publish_budget_s = 60          # brief §7
+failure_after_s = 300          # brief §7: anything later counts as a failure
+
+[freshness]
+stale_trigger_after_s = 900    # skew-corrected trigger age; see notes/OPEN_DECISIONS.md D03
+snapshot_max_age_h = 48        # profile facts older than this are treated as unknown
+
+[replay]
+workers = 8
+load_shed_queue_wait_s = 20    # above this estimated wait, skip optional model calls
+
+[decision]
+min_confidence_to_act = 0.4
+
+[planning]
+# Lifecycle order: activate first (play, return, finish an episode), then retain, then monetise.
+# A goal later in the list is chosen only if every earlier one is ineligible. See OPEN_DECISIONS D17.
+goal_priority = ["G01", "G03", "G02", "G04", "G07", "G12", "G06", "G09", "G08", "G05"]
+requires_activation = ["G05"]   # never ask someone to pay before they have finished an episode
+rows_per_page = 4               # up to interventions.json max_rows (6)
+titles_per_row = 8              # within 3..10
+new_release_days = 30
+message_delay_h = 24            # planned follow-up message, sent only if the goal shows no progress
+
+[model]
+# The model is optional: it is consulted only when two or more goals are eligible, and every
+# answer is validated and re-verified. "mock" (default) needs no API key and replays the
+# pack's model faults; "claude" calls the Anthropic API with pseudonymised features only.
+provider = "mock"
+seed = "oua-practice"
+claude_model = "claude-opus-5-5"
+claude_effort = "low"

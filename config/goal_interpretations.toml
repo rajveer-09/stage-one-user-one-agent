@@ -1,0 +1,99 @@
+# Goal interpretations: how this agent reads the parts of config/goals.json that are
+# missing, vague or unmeasurable. Each assumption has an ID; decisions cite it as
+# evidence ("assumption:G06-a1") so a reviewer can see which reading was used.
+#
+# Author: Rajveer Sharma
+# Date: 18 Oct 2026
+#
+# Evidence for every choice below is in notes/DATA_FINDINGS.md.
+
+# ------------------------------------------------------------------ disabled goals
+
+[disabled.G10]
+reason = "unmeasurable_success_signal"
+detail = "success.event is null and 'engages meaningfully' is not defined anywhere in the pack. Eligibility ('Any user') is also unbounded, so choosing it would let the agent act on everyone with no way to judge the result."
+
+[disabled.G11]
+reason = "unmeasurable_success_signal"
+detail = "Success event 'tv_app_open' never appears in 140,730 deduplicated events (17 event types observed) or in replay/live_events.jsonl. The goal could never be judged a success."
+
+# ------------------------------------------------------------------ underspecified rules
+
+[[assumption]]
+id = "G02-a1"
+goal = "G02"
+rule = "eligibility.text: 'Has never completed an episode.'"
+interpretation = "No episode_completed in the available event history. For viewers who signed up before the history starts (30 days), earlier completions cannot be seen; the goal is still allowed but this assumption is cited and confidence is lowered."
+why = "The pack has 30 days of events, not each viewer's full history. Refusing G02 for every older viewer would leave long-time non-finishers with no activation goal."
+
+[[assumption]]
+id = "G06-a1"
+goal = "G06"
+rule = "eligibility.text: 'Subscription recently lapsed.'"
+interpretation = "Eligible only if the latest subscription_lapsed event (by received_at) is within 30 days before the trigger AND no purchase_completed or subscription_renewed event was received after it."
+why = "'Recently' has no bound. 30 days is one monthly plan cycle (P_MONTH) and the full event history. 579 of 800 profiles with status 'lapsed' have no lapse date at all (no event, no plan_ends_at), so recency cannot be shown for them and they are not eligible."
+
+[[assumption]]
+id = "G07-a1"
+goal = "G07"
+rule = "eligibility.text: 'Started a show or micro-drama, has unwatched episodes left, and has not played it for 3 or more days.'"
+interpretation = "Series = catalogue content_type in {show, micro_drama}, matched by content_slug. 'Started' = at least one play_started for that slug. 'Unwatched episodes left' = episodes.csv has an episode_id for the slug with no episode_completed by this user. 'Not played for 3 days' = latest play_started for the slug received 72 h or more before the trigger. If several series qualify, pick the one played most recently; the goal then tracks that one content_slug."
+why = "The rule names the conditions but not the data that proves them, and does not say what happens when several series qualify. Success ('same content_slug as the unfinished series') needs exactly one slug."
+
+# ------------------------------------------------------------------ clarifications used by the planner
+
+[[assumption]]
+id = "ALL-a1"
+goal = "*"
+rule = "goals.json notes: 'A goal window starts when the agent commits to the goal.'"
+interpretation = "Goal start = the decision's published_at. Deadline = start + success.window_hours. Success must be received after start and no later than the deadline."
+why = "Committing is publishing; a decision that was never published started nothing."
+
+[[assumption]]
+id = "ALL-a2"
+goal = "*"
+rule = "eligibility clauses phrased as 'in the last N days', 'never', 'no ... before the trigger'"
+interpretation = "Time windows are measured back from the trigger's deliver_at, on received_at timestamps (server clock). Phone timestamps are not used for eligibility windows."
+why = "received_at is the only trustworthy clock (pack README). Phone clocks are off by up to ±29 h."
+
+[[assumption]]
+id = "G03-a1"
+goal = "G03"
+rule = "success.condition: 'on a later IST calendar day than the goal start'"
+interpretation = "The success event's received_at, converted to IST, falls on a later calendar date than the goal start in IST. Rule v1: event = app_open. Rule v2 (control event at 2026-10-01T08:30Z): event = play_started, applied to every G03 goal still open, as the correction states."
+why = "The correction itself says which goals it applies to. Only open G03 goals are re-pointed; nothing else is reprocessed."
+
+[[assumption]]
+id = "G05-a1"
+goal = "G05"
+rule = "eligibility.text: 'Has never had a paid plan.' (subscription_status = never)"
+interpretation = "Profile status 'never' AND no purchase_completed or subscription_renewed event for the user received after the snapshot. A purchase that arrives later closes the goal."
+why = "The snapshot is a day old. 4 purchases arrive after it for users it calls never/lapsed, and 36 purchases arrive about 2 minutes after a replay trigger."
+
+[[assumption]]
+id = "G04-a1"
+goal = "G04"
+rule = "eligibility: subscription_status = trial_active"
+interpretation = "Eligible only on a fact with provenance: profile status trial_active, or a purchase_completed with is_trial = true received after the snapshot. A model statement is never enough."
+why = "Only 4 of 4,888 profiles are trial_active and no trial purchase appears in the event history. replay/model_faults.jsonl injects confident G04 eligibility claims for users whose profile says 'never'."
+
+[[assumption]]
+id = "G12-a1"
+goal = "G12"
+rule = "eligibility.text: 'No app_open in the 14 days before the trigger.'"
+interpretation = "Exclude the trigger itself and any app_open sharing its session_id. Count other app_open events received in the 14 days before deliver_at. The viewer must have signed up more than 14 days before the trigger: someone who joined today has not 'stopped visiting'."
+why = "Without the exclusion, the trigger (an app_open) would always disqualify the user."
+
+[[assumption]]
+id = "G08-a1"
+goal = "G08"
+rule = "success.condition: 'a title released in the 30 days before the goal start'"
+interpretation = "The catalogue release_date of the played title_id is within 30 days before the goal start (IST date)."
+why = "release_date is a date without a time."
+
+[[assumption]]
+id = "G09-a1"
+goal = "G09"
+rule = "eligibility.text: 'plays on at most 1 day in the last 14 days'; success: 'on 3 distinct IST days'"
+interpretation = "Days are IST calendar dates of play_started received_at. Eligibility counts distinct days in the 14 days before the trigger; success needs play_started on 3 distinct IST days inside the window."
+why = "Both clauses count days; IST is the policy timezone."

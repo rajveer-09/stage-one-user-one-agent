@@ -1,0 +1,286 @@
+{
+  "budget_s": 60,
+  "failure_threshold_s": 300,
+  "overall": {
+    "n": 2684,
+    "trigger_to_publish_s": {
+      "p50": 0.0,
+      "p95": 1.179,
+      "p99": 1.437,
+      "max": 3.332
+    },
+    "decided_in_ms": {
+      "p50": 0.48,
+      "p95": 1179.35,
+      "max": 3332.51
+    },
+    "queue_wait_ms_max": 753.83,
+    "within_budget_pct": 100.0,
+    "over_failure_threshold": 0
+  },
+  "windows": {
+    "dependency_unavailable: model_provider": {
+      "n": 22,
+      "trigger_to_publish_s": {
+        "p50": 0.0,
+        "p95": 0.052,
+        "p99": 0.053,
+        "max": 0.053
+      },
+      "decided_in_ms": {
+        "p50": 0.99,
+        "p95": 52.39,
+        "max": 53.23
+      },
+      "queue_wait_ms_max": 0.0,
+      "within_budget_pct": 100.0,
+      "over_failure_threshold": 0
+    },
+    "dependency_degraded: user_data_store": {
+      "n": 16,
+      "trigger_to_publish_s": {
+        "p50": 0.0,
+        "p95": 3.332,
+        "p99": 3.332,
+        "max": 3.332
+      },
+      "decided_in_ms": {
+        "p50": 0.61,
+        "p95": 3332.51,
+        "max": 3332.51
+      },
+      "queue_wait_ms_max": 0.0,
+      "within_budget_pct": 100.0,
+      "over_failure_threshold": 0
+    },
+    "traffic peak 04:40Z (240 triggers vs median 17)": {
+      "n": 237,
+      "trigger_to_publish_s": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 1.157,
+        "max": 1.471
+      },
+      "decided_in_ms": {
+        "p50": 0.26,
+        "p95": 0.76,
+        "max": 1471.32
+      },
+      "queue_wait_ms_max": 0.0,
+      "within_budget_pct": 100.0,
+      "over_failure_threshold": 0
+    },
+    "traffic peak 11:50Z (38 triggers vs median 17)": {
+      "n": 37,
+      "trigger_to_publish_s": {
+        "p50": 0.0,
+        "p95": 1.211,
+        "p99": 1.429,
+        "max": 1.429
+      },
+      "decided_in_ms": {
+        "p50": 0.38,
+        "p95": 1211.11,
+        "max": 1429.57
+      },
+      "queue_wait_ms_max": 0.0,
+      "within_budget_pct": 100.0,
+      "over_failure_threshold": 0
+    },
+    "traffic peak 13:50Z (37 triggers vs median 17)": {
+      "n": 34,
+      "trigger_to_publish_s": {
+        "p50": 0.0,
+        "p95": 0.751,
+        "p99": 0.776,
+        "max": 0.776
+      },
+      "decided_in_ms": {
+        "p50": 0.43,
+        "p95": 751.39,
+        "max": 776.85
+      },
+      "queue_wait_ms_max": 0.0,
+      "within_budget_pct": 100.0,
+      "over_failure_threshold": 0
+    },
+    "traffic peak 14:20Z (54 triggers vs median 17)": {
+      "n": 52,
+      "trigger_to_publish_s": {
+        "p50": 0.0,
+        "p95": 1.185,
+        "p99": 1.241,
+        "max": 1.241
+      },
+      "decided_in_ms": {
+        "p50": 0.78,
+        "p95": 1185.06,
+        "max": 1241.29
+      },
+      "queue_wait_ms_max": 0.0,
+      "within_budget_pct": 100.0,
+      "over_failure_threshold": 0
+    },
+    "traffic peak 15:00Z (165 triggers vs median 17)": {
+      "n": 163,
+      "trigger_to_publish_s": {
+        "p50": 0.0,
+        "p95": 1.142,
+        "p99": 1.247,
+        "max": 1.468
+      },
+      "decided_in_ms": {
+        "p50": 0.47,
+        "p95": 1142.05,
+        "max": 1468.27
+      },
+      "queue_wait_ms_max": 0.0,
+      "within_budget_pct": 100.0,
+      "over_failure_threshold": 0
+    },
+    "traffic peak 15:10Z (45 triggers vs median 17)": {
+      "n": 38,
+      "trigger_to_publish_s": {
+        "p50": 0.0,
+        "p95": 1.353,
+        "p99": 1.362,
+        "max": 1.362
+      },
+      "decided_in_ms": {
+        "p50": 0.51,
+        "p95": 1353.38,
+        "max": 1362.87
+      },
+      "queue_wait_ms_max": 235.25,
+      "within_budget_pct": 100.0,
+      "over_failure_threshold": 0
+    },
+    "traffic peak 15:20Z (45 triggers vs median 17)": {
+      "n": 42,
+      "trigger_to_publish_s": {
+        "p50": 0.0,
+        "p95": 0.951,
+        "p99": 1.389,
+        "max": 1.389
+      },
+      "decided_in_ms": {
+        "p50": 0.86,
+        "p95": 951.61,
+        "max": 1389.11
+      },
+      "queue_wait_ms_max": 0.0,
+      "within_budget_pct": 100.0,
+      "over_failure_threshold": 0
+    },
+    "traffic peak 15:40Z (35 triggers vs median 17)": {
+      "n": 34,
+      "trigger_to_publish_s": {
+        "p50": 0.0,
+        "p95": 1.362,
+        "p99": 1.416,
+        "max": 1.416
+      },
+      "decided_in_ms": {
+        "p50": 0.9,
+        "p95": 1362.74,
+        "max": 1416.41
+      },
+      "queue_wait_ms_max": 0.0,
+      "within_budget_pct": 100.0,
+      "over_failure_threshold": 0
+    },
+    "traffic peak 16:10Z (35 triggers vs median 17)": {
+      "n": 35,
+      "trigger_to_publish_s": {
+        "p50": 0.0,
+        "p95": 0.664,
+        "p99": 1.303,
+        "max": 1.303
+      },
+      "decided_in_ms": {
+        "p50": 0.51,
+        "p95": 664.22,
+        "max": 1303.99
+      },
+      "queue_wait_ms_max": 0.0,
+      "within_budget_pct": 100.0,
+      "over_failure_threshold": 0
+    },
+    "traffic peak 16:20Z (38 triggers vs median 17)": {
+      "n": 37,
+      "trigger_to_publish_s": {
+        "p50": 0.0,
+        "p95": 1.124,
+        "p99": 1.352,
+        "max": 1.352
+      },
+      "decided_in_ms": {
+        "p50": 0.44,
+        "p95": 1124.56,
+        "max": 1352.6
+      },
+      "queue_wait_ms_max": 0.0,
+      "within_budget_pct": 100.0,
+      "over_failure_threshold": 0
+    },
+    "traffic peak 16:40Z (38 triggers vs median 17)": {
+      "n": 36,
+      "trigger_to_publish_s": {
+        "p50": 0.0,
+        "p95": 1.249,
+        "p99": 1.307,
+        "max": 1.307
+      },
+      "decided_in_ms": {
+        "p50": 0.55,
+        "p95": 1249.31,
+        "max": 1307.37
+      },
+      "queue_wait_ms_max": 0.0,
+      "within_budget_pct": 100.0,
+      "over_failure_threshold": 0
+    },
+    "traffic peak 16:50Z (36 triggers vs median 17)": {
+      "n": 36,
+      "trigger_to_publish_s": {
+        "p50": 0.0,
+        "p95": 0.886,
+        "p99": 1.286,
+        "max": 1.286
+      },
+      "decided_in_ms": {
+        "p50": 0.52,
+        "p95": 886.25,
+        "max": 1286.59
+      },
+      "queue_wait_ms_max": 0.0,
+      "within_budget_pct": 100.0,
+      "over_failure_threshold": 0
+    }
+  },
+  "calls_per_decision": {
+    "model_calls": {
+      "1": 483,
+      "0": 2200,
+      "2": 1
+    },
+    "tool_calls_max": 6,
+    "limits": {
+      "max_model_calls": 8,
+      "max_tool_calls": 20
+    },
+    "budget_exceeded": 0
+  },
+  "fallbacks": {
+    "rules: model claim rejected": 1,
+    "rules: model unavailable": 4,
+    "rules: model circuit open": 3,
+    "rules: model malformed": 1
+  },
+  "degraded_mode": {},
+  "status": {
+    "PUBLISHED": 918,
+    "HOLDOUT_NO_ACTION": 1325,
+    "NO_ACTION": 441
+  }
+}
